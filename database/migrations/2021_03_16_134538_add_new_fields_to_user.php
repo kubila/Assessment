@@ -16,6 +16,8 @@ class AddNewFieldsToUser extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('surname')->after('name');
             $table->string('phone')->after('email');
+            $table->boolean('is_member');
+            $table->boolean('is_admin');
         });
     }
 
@@ -27,7 +29,7 @@ class AddNewFieldsToUser extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('surname', 'phone');
+            $table->dropColumn('surname', 'phone', 'is_member', 'is_admin');
         });
 
     }
