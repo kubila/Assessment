@@ -12,11 +12,27 @@
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
     @each $prop, $abbrev in (width: w, height: h) {
       @each $size, $length in $sizes {
-        .#{$abbrev}#{$infix}-#{$size} { #{$prop}: $length !important; }
+        .#{$abbrev}#{$infix}-#{$size} {
+          #{$prop}: $length !important;
+        }
       }
     }
   }
 }
 
 // Custom
-@import "custom";
+@import 'custom';
+
+.product {
+  transition: transform 0.1s ease-in-out;
+  &:hover {
+    transform: scale(1.01);
+    filter: drop-shadow(0 0 0.7rem rgb(221, 221, 220));
+  }
+}
+
+.product-wrapper {
+  border: 1px solid grey;
+  border-radius: 5px;
+  min-height: 250px;
+}
