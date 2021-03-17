@@ -56,6 +56,16 @@
                     <x-jet-input class="form-control" type="password" name="password_confirmation" required autocomplete="new-password" />
                 </div>
 
+                <div class="form-group">
+                  <x-jet-label for="role_id" value="{{ __('Create as') }}" />
+
+                  <select name="role_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                    <option value="1">Member</option>
+                    <option value="2">Admin</option>
+                </select>
+                  <x-jet-input-error for="role_id"></x-jet-input-error>
+                </div>
+
                 @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                     <div class="form-group">
                         <div class="custom-control custom-checkbox">
