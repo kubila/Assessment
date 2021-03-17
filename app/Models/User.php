@@ -28,18 +28,7 @@ class User extends Authenticatable
         'email',
         'phone',
         'password',
-        'is_member',
-        'is_admin',
-    ];
-
-    /**
-     * Set fields to default values
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'is_member' => true,
-        'is_admin' => false,
+        'role_id',
     ];
 
     /**

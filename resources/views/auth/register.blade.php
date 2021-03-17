@@ -19,11 +19,27 @@
                 </div>
 
                 <div class="form-group">
+                  <x-jet-label value="{{ __('Last Name') }}" />
+
+                  <x-jet-input class="{{ $errors->has('surname') ? 'is-invalid' : '' }}" type="text" name="surname"
+                               :value="old('surname')" required autofocus autocomplete="surname" />
+                  <x-jet-input-error for="surname"></x-jet-input-error>
+                </div>
+
+                <div class="form-group">
                     <x-jet-label value="{{ __('Email') }}" />
 
                     <x-jet-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email"
                                  :value="old('email')" required />
                     <x-jet-input-error for="email"></x-jet-input-error>
+                </div>
+
+                <div class="form-group">
+                  <x-jet-label value="{{ __('Phone') }}" />
+
+                  <x-jet-input class="{{ $errors->has('phone') ? 'is-invalid' : '' }}" type="text" name="phone"
+                               :value="old('phone')" required autofocus autocomplete="phone" />
+                  <x-jet-input-error for="phone"></x-jet-input-error>
                 </div>
 
                 <div class="form-group">
