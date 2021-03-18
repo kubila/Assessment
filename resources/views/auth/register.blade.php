@@ -11,7 +11,7 @@
                 @csrf
 
                 <div class="form-group">
-                    <x-jet-label value="{{ __('Name') }}" />
+                    <x-jet-label for="name" value="{{ __('Name') }}" />
 
                     <x-jet-input class="{{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name"
                                  :value="old('name')" required autofocus autocomplete="name" />
@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="form-group">
-                  <x-jet-label value="{{ __('Last Name') }}" />
+                  <x-jet-label for="surname" value="{{ __('Last Name') }}" />
 
                   <x-jet-input class="{{ $errors->has('surname') ? 'is-invalid' : '' }}" type="text" name="surname"
                                :value="old('surname')" required autofocus autocomplete="surname" />
@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="form-group">
-                    <x-jet-label value="{{ __('Email') }}" />
+                    <x-jet-label for="email" value="{{ __('Email') }}" />
 
                     <x-jet-input class="{{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email"
                                  :value="old('email')" required />
@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="form-group">
-                  <x-jet-label value="{{ __('Phone') }}" />
+                  <x-jet-label for="phone" value="{{ __('Phone') }}" />
 
                   <x-jet-input class="{{ $errors->has('phone') ? 'is-invalid' : '' }}" type="text" name="phone"
                                :value="old('phone')" required autofocus autocomplete="phone" />
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="form-group">
-                    <x-jet-label value="{{ __('Password') }}" />
+                    <x-jet-label for="password" value="{{ __('Password') }}" />
 
                     <x-jet-input class="{{ $errors->has('password') ? 'is-invalid' : '' }}" type="password"
                                  name="password" required autocomplete="new-password" />
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="form-group">
-                    <x-jet-label value="{{ __('Confirm Password') }}" />
+                    <x-jet-label for="password-confirmation" value="{{ __('Confirm Password') }}" />
 
                     <x-jet-input class="form-control" type="password" name="password_confirmation" required autocomplete="new-password" />
                 </div>
@@ -59,7 +59,7 @@
                 <div class="form-group">
                   <x-jet-label for="role_id" value="{{ __('Create as') }}" />
 
-                  <select name="role_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                  <select name="role_id" class="d-block w-100 mt-1 w-full border border-light rounded-md shadow-sm">
                     <option value="1">Member</option>
                     <option value="2">Admin</option>
                 </select>

@@ -2,17 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductsController extends Controller
+class CategoriesController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +13,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->get();
-        return view('products.index', ['data' => $products]);
+        //
     }
 
     /**
@@ -47,14 +39,13 @@ class ProductsController extends Controller
 
     /**
      * Display the specified resource.
-     * @param  \App\Models\Product  $product
+     *
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(PRoduct $product)
+    public function show($id)
     {
-        $product = Product::find($product->id);
-        //dd($product);
-        return view('products.show', ['data' => $product]);
+        //
     }
 
     /**

@@ -12,11 +12,14 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('fa/css/all.min.css') }}">
 
+        <link rel="stylesheet" href="{{ asset('dt/jquery.dataTables.min.css') }}">
         @livewireStyles
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script defer src="{{ asset('fa/js/all.min.js') }}"></script>
     </head>
     <body class="font-sans antialiased bg-light">
         <x-jet-banner />
