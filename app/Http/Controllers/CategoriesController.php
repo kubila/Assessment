@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -13,7 +14,8 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        //
+        $cats = Category::paginate(10);
+        return view('products.index', ['data' => $cats]);
     }
 
     /**

@@ -64,7 +64,7 @@
                   <div class="d-flex justify-content-center pt-3 align-items-end">
                     <div class="px-2">
 
-                      <a href="#" target="_blank">
+                      <a href="#" target="_blank" class="text-justify">
                         {{ $item->productName }}
                       </a>
 
