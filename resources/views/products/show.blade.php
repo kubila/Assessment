@@ -21,7 +21,7 @@
     <div class="col-md-12">
       <hr>
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-lg-3">
           <div class="mx-3 my-3">
             <div class="p-4">
               <img
@@ -36,7 +36,7 @@
         </div>
         <div class="col-sm-9">
           <div class="mx-2 my-3">
-            <div class="p-4 mt-4">
+            <div class="p-4 mt-4 ml-2">
               <div class="p-2"><h4 class="text-justify">{{ $data->productName }}</h4></div>
               <div class="p-2 text-justify"><p class="text-justify">{{ $data->price }}</p></div>
               <div class="p-2"><p class="text-justify">{{ $data->description }}</p></div>
