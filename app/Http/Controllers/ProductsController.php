@@ -15,7 +15,7 @@ class ProductsController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('auth:sanctum');
+        $this->middleware('auth');
     }
 
     /**
@@ -62,10 +62,10 @@ class ProductsController extends Controller
 
         } catch (\Exception $th) {
             Log::error($th->getMessage());
-            return redirect()->back()->with(['error' => 'An error occurred while trying to create product.']);
+            return back()->with(['error' => 'An error occurred while trying to create product.']);
         }
 
-        return redirect()->route('products.index')->with(['success' => 'Product created.']);
+        return redirect()->route('products.index')->with(['success' => 'Product created successfully.']);
     }
 
     /**
@@ -76,7 +76,6 @@ class ProductsController extends Controller
     public function show(Product $product)
     {
         //$product = Product::with('category')->where('id', $product->id)->first();
-
         try {
 
             $product = Product::with('category')->findOrFail($product->id);
@@ -98,7 +97,7 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
-        $product = Product::with('category')->where('id', $product->id)->first();
+        //$product = Product::with('category')->where('id', $product->id)->first();
         $cats = Category::all('id', 'name'); //->whereNotIn('id', [$product->category_id]);
 
         return view('products.edit', compact('product', 'cats'));
@@ -132,7 +131,7 @@ class ProductsController extends Controller
             return back()->with(['error' => 'An error occurred while trying to update the product.']);
         }
 
-        return redirect()->route('products.index')->with(['success' => 'Product updated.']);
+        return redirect()->route('products.index')->with(['success' => 'Product updated successfully.']);
     }
 
     /**
@@ -143,9 +142,16 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
-        Storage::disk('public')->delete('images', $product->image);
-        //$product->category()->dissociate();
-        $product->delete();
-        return response()->json(['success' => 'Product deleted.']);
+
+        try {
+            Storage::disk('public')->delete('images', $product->image);
+            $product->category()->dissociate();
+            $product->destroy($product->id);
+        } catch (\Exception $th) {
+            Log::error($th->getMessage());
+            return response()->json(['error' => 'Caouldn\'t delete the product.'], 400);
+        }
+
+        return response()->json(['success' => 'Product deleted successfully.']);
     }
 }

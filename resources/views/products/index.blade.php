@@ -21,6 +21,7 @@
         <div class="my-3">
           <a href="{{ route('products.create') }}" class="btn btn-dark"><i class="fas fa-plus-square"></i><span class="ml-2">Create Product</span></a>
         </div>
+        <hr>
         <div class="table-responsive">
           <table class="table table-sm table-hover bg-white">
             <thead>
@@ -48,54 +49,57 @@
             <tbody>
             @if ($data->count() > 0)
               @foreach ($data as $item)
-              <tr class="trsize">
-                <td class="text-left align-middle text-justify">{{ $item->id }}</td>
+                <tr class="trsize">
+                  <td class="text-left align-middle text-justify">{{ $item->id }}</td>
 
-                <td class="text-left align-middle text-justify">
-                  <a id="product_title" href="{{ route('products.show', $item->id) }}" class="text-primary">{{$item->productName }}</a>
-                </td>
+                  <td class="text-left align-middle text-justify">
+                    <a id="product_title" href="{{ route('products.show', $item->id) }}" class="text-primary">{{$item->productName }}</a>
+                  </td>
 
-                <td class="text-left align-middle text-justify"><img
-                  src=@php echo \Illuminate\Support\Facades\Storage::url($item->image) @endphp
-                  alt="product_pic"
-                  width="90"
-                  height="90"
-                  class="img-fluid"
-                /></td>
+                  <td class="text-left align-middle text-justify"><img
+                    src=@php echo \Illuminate\Support\Facades\Storage::url($item->image) @endphp
+                    alt="product_pic"
+                    width="90"
+                    height="90"
+                    class="img-fluid"
+                  /></td>
 
-                <td class="text-left align-middle text-justify tdsize">{{ $item->description }}</td>
+                  <td class="text-left align-middle text-justify tdsize">{{ $item->description }}</td>
 
-                <td class="text-left align-middle text-justify">{{ $item->price }}</td>
+                  <td class="text-left align-middle text-justify">{{ $item->price }}</td>
 
-                <td class="text-left align-middle text-justify">
-                  @if (isset($item->category))
-                    <a id="product_category" href="{{ route('categories.show', $item->category->id) }}" class="text-primary">{{ $item->category->name }}</a>
-                  @else
-                    <button class="border-0 text-secondary"><h6 class="m-0">Deleted</h6></button>
-                  @endif
-                </td>
+                  <td class="text-left align-middle text-justify">
+                    @if (isset($item->category))
+                      <a id="product_category" href="{{ route('categories.show', $item->category->id) }}" class="text-primary">{{ $item->category->name }}</a>
+                    @else
+                      <button class="border-0 text-secondary"><h6 class="m-0">Deleted</h6></button>
+                    @endif
+                  </td>
 
-                <td class="text-center align-middle text-justify">
-                  <div class="pb-1 pr-1 d-inline-block">
-                    <a class="btn btn-secondary btn-sm " id="product_edit" href="{{ route('products.edit', $item->id) }}">
-                      <i class="fas fa-edit"></i>
-                    </a>
-                  </div>
+                  <td class="text-center align-middle text-justify">
+                    <div class="pb-1 pr-1 d-inline-block">
+                      <a class="btn btn-secondary btn-sm " id="product_edit" href="{{ route('products.edit', $item->id) }}">
+                        <i class="fas fa-edit"></i>
+                      </a>
+                    </div>
 
-                  <div class="pr-1 d-inline-block">
-                    <button type="button" class="btn btn-danger btn-sm" id="product_delete" value="{{ $item->id }}" onclick="$.productRemove;">
-                      <i class="fas fa-times-circle"></i>
-                    </button>
-                  </div>
-                </td>
-
-              </tr>
+                    <div class="pr-1 d-inline-block">
+                      <button type="button" class="btn btn-danger btn-sm" id="product_delete" value="{{ $item->id }}" onclick="$.productRemove;">
+                        <i class="fas fa-times-circle"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
               @endforeach
+            @else
+              <div class="mx-auto">No records to display.</div>
             @endif
 
             </tbody>
           </table>
+          <hr>
         </div> <!-- table-responsive -->
+
         <div class="mt-4 d-flex justify-content-center">{{ $data->links() }}</div>
       </div>
   </div>

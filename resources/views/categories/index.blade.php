@@ -20,20 +20,22 @@
       <div class="col-md-12">
         <div class="my-3">
           <a href="{{ route('categories.create') }}" class="btn btn-dark"><i class="fas fa-plus-square"></i><span class="ml-2">Create Category</span></a>
+          <hr>
         </div>
+
         <div class="table-responsive">
           <table class="table table-sm table-hover bg-white">
             <thead>
               <tr>
-                <th class="w-auto text-left align-middle thsize">No</th>
-                <th class="w-auto text-left align-middle text-primary thsize">Category Name</th>
+                <th class="w-auto text-left align-middle">No</th>
+                <th class="w-auto text-left align-middle text-primary">Category Name</th>
                 <th class="w-auto text-secondary text-center align-middle buttons"><strong>Actions</strong></th>
               </tr>
             </thead>
             <tfoot>
               <tr>
-                <th class="w-auto text-left align-middle thsize">No</th>
-                <th class="w-auto text-left align-middle text-primary thsize">Category Name</th>
+                <th class="w-auto text-left align-middle">No</th>
+                <th class="w-auto text-left align-middle text-primary">Category Name</th>
                 <th class="w-auto text-secondary text-center align-middle buttons"><strong>Actions</strong></th>
               </tr>
             </tfoot>
@@ -50,42 +52,45 @@
 
                 <td class="text-center align-middle text-justify">
                   <div class="pb-1 pr-1 d-inline-block">
-                    <a class="btn btn-secondary btn-sm " id="product_edit" href="{{ route('categories.edit', $item->id) }}">
+                    <a class="btn btn-secondary btn-sm " id="category_edit" href="{{ route('categories.edit', $item->id) }}">
                       <i class="fas fa-edit"></i>
                     </a>
                   </div>
 
                   <div class="pr-1 d-inline-block">
-                    <button type="button" class="btn btn-danger btn-sm" id="product_delete" value="{{ $item->id }}" onclick="$.categoryRemove;">
+                    <button type="button" class="btn btn-danger btn-sm" id="category_delete" value="{{ $item->id }}" onclick="$.categoryRemove;">
                       <i class="fas fa-times-circle"></i>
                     </button>
                   </div>
                 </td>
-
               </tr>
               @endforeach
+            @else
+              <div class="mx-auto">No records to display.</div>
             @endif
-
             </tbody>
           </table>
+          <hr>
         </div> <!-- table-responsive -->
+
         <div class="mt-4 d-flex justify-content-center">{{ $data->links() }}</div>
       </div>
   </div>
-  <div class="modal fade" id="productDeleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+
+  <div class="modal fade" id="categoryDeleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-            <button type="button" id="confirmCloseProductDelete" class="close pr-3 pt-2" data-dismiss="modal" aria-label="Close">
+            <button type="button" id="confirmCloseCategoryDelete" class="close pr-3 pt-2" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
-          <h5 class="lead">Bu ürünü silmek istediğinize emin misiniz?</h5>
+          <h5 class="lead">Are you sure?</h5>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="confirmCancelProductDelete" data-dismiss="modal">Kapat</button>
-          <button type="button" class="btn btn-danger" id="confirmProductDelete" data-dismiss="modal">Sil</button>
+          <button type="button" class="btn btn-secondary" id="confirmCancelCategoryDelete" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" id="confirmCategoryDelete" data-dismiss="modal">Delete</button>
         </div>
       </div>
     </div>

@@ -1,6 +1,4 @@
 jQuery(function () {
-  $('#myDataTable').DataTable();
-
   $.ajaxSetup({
     headers: {
       'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content'),
@@ -40,6 +38,43 @@ jQuery(function () {
     });
 
     $('button#confirmCloseProductDelete').on('click', function () {
+      id, (satir = undefined);
+    });
+  });
+
+  $.categoryRemove = $('button#category_delete').on('click', function () {
+    $('div#categoryDeleteModal').modal('show');
+    let id = $(this).attr('value');
+    let satir = $(this).closest('tr');
+
+    $('button#confirmCategoryDelete').on('click', function () {
+      if (id !== undefined && satir !== undefined) {
+        $.ajax({
+          url: '/categories/' + id,
+          type: 'DELETE',
+          data: {
+            satir: id,
+          },
+          dataType: 'json',
+          success: function (data) {
+            if (data.success) {
+              satir.remove();
+            }
+            id, (satir = undefined);
+          },
+          error: function (data) {
+            console.log('Error: ', data.responseJSON.errors);
+            id, (satir = undefined);
+          },
+        });
+      }
+    });
+
+    $('button#confirmCancelCategoryDelete').on('click', function () {
+      id, (satir = undefined);
+    });
+
+    $('button#confirmCloseCategoryDelete').on('click', function () {
       id, (satir = undefined);
     });
   });

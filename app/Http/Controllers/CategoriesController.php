@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CategoriesController extends Controller
 {
@@ -15,7 +19,7 @@ class CategoriesController extends Controller
     public function index()
     {
         $cats = Category::paginate(10);
-        return view('products.index', ['data' => $cats]);
+        return view('categories.index', ['data' => $cats]);
     }
 
     /**
@@ -25,7 +29,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.add');
     }
 
     /**
@@ -34,53 +38,88 @@ class CategoriesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCategoryRequest $request)
     {
-        //
+        try {
+
+            Category::create($request->validated());
+
+        } catch (\Exception $th) {
+            Log::error($th->getMessage());
+            return redirect()->back()->with(['error' => 'An error occurred while trying to create category.']);
+        }
+
+        return redirect()->route('categories.index')->with(['success' => 'Category created successfully.']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        try {
+
+            $category = Product::with('category')->where('category_id', $category->id)->paginate(5);
+
+        } catch (\Exception $th) {
+
+            Log::error($th->getMessage());
+            return back()->with(['error' => 'Not found.']);
+
+        }
+        return view('categories.show', ['data' => $category]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        return view('categories.add', ['data' => $category]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        try {
+
+            $category->update($request->validated());
+
+        } catch (\Exception $th) {
+            Log::error($th->getMessage());
+            return back()->with(['error' => 'An error occurred while trying to update the category.']);
+        }
+
+        return redirect()->route('categories.index')->with(['success' => 'Category updated successfully.']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        try {
+            $category->destroy($category->id);
+        } catch (\Exception $th) {
+            Log::error($th->getMessage());
+            return response()->json(['error' => 'Caouldn\'t delete the category.'], 400);
+        }
+
+        return response()->json(['success' => 'Category deleted successfully.']);
     }
 }
