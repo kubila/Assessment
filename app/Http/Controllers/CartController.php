@@ -50,9 +50,18 @@ class CartController extends Controller
         ]);
 
         $product = Product::all()->where('id', $request->id)->first();
+
+        $cart = Cart::create([
+            'quantity' => 1,
+            'total' => $product->price,
+        ]);
+
+        $pr = new Product();
+        $pr->carts()->attach($product->id);
+
         $cart = Cart::all()->where('product_id', $product->id)->first();
 
-        if (isset($cart->product_id) && $product->id == $cart->product_id) {
+        if (isset($cart->products()->product_id) && $product->id == $cart->product_id) {
 
             try {
 
