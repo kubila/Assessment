@@ -19,12 +19,12 @@
 
   <div class="row">
     <div class="col-md-12">
-      <x-jet-validation-errors class="mb-3" />
+
+      @if (count(Cart::content()))
       <div class="cart-table table-responsive mb-30">
         <table class="table">
             <thead>
                 <tr>
-                    <th class="pro-thumbnail">Image</th>
                     <th class="pro-title">Product</th>
                     <th class="pro-price">Price</th>
                     <th class="pro-quantity">Quantity</th>
@@ -33,36 +33,23 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($data as $item)
-                  <tr>
-                    <td class="pro-thumbnail"><a href="#"><img
-                      src=@php echo \Illuminate\Support\Facades\Storage::url() @endphp
-                      alt="product_pic"
-                      width="480"
-                      height="480"
-                      class="img-fluid mt-3"
-                    /></a></td>
-                    <td class="pro-title"><a href="#">Black Die Grinder</a></td>
-                    <td class="pro-price"><span>$25.00</span></td>
+              {{-- {{ dd(Cart::content()) }} --}}
+              @foreach (Cart::content() as $item)
+                    <td class="pro-title"><a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a></td>
+                    <td class="pro-price"><span>{{ $item->price }}</span></td>
                     <td class="pro-quantity">
-                        <div class="pro-qty"><input type="number" value="1"></div>
+                        <div class="pro-qty"><input type="number" value="{{ $item->qty }}" disabled></div>
                     </td>
-                    <td class="pro-subtotal"><span>$25.00</span></td>
+                    <td class="pro-subtotal"><span>{{ $item->subtotal }}</span></td>
                     <td class="pro-remove"><a href="#"><i class="far fa-trash-alt fa-lg"></i></a></td>
                   </tr>
-                {{-- <tr>
-                    <td class="pro-thumbnail"><a href="#"><img src="" alt="Product"></a></td>
-                    <td class="pro-title"><a href="#">Orange Decker drill</a></td>
-                    <td class="pro-price"><span>$25.00</span></td>
-                    <td class="pro-quantity">
-                        <div class="pro-qty"><input type="number" value="1"></div>
-                    </td>
-                    <td class="pro-subtotal"><span>$25.00</span></td>
-                    <td class="pro-remove"><a href="#"><i class="fas fa-trash fa-lg"></i></a></td>
-                </tr> --}}
+                @endforeach
             </tbody>
         </table>
       </div>
+      @else
+        <div class="text-center"><h4 class="lead">No item in the cart yet.</h4></div>
+      @endif
     </div>
   </div>
 </x-app-layout>

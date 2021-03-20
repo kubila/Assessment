@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
@@ -22,19 +24,11 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = Product::with('cart'); //->with('products');
-        dd($cart);
-        return view('cart.manage_cart', ['data' => $cart]);
-    }
+        if (Gate::denies('manage-cart')) {
+            abort(403);
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('cart.manage_cart');
     }
 
     /**
@@ -43,103 +37,59 @@ class CartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function upsert(Request $request)
     {
+        if (Gate::denies('manage-cart')) {
+            abort(403);
+        }
+
         $request->validate([
             'id' => 'required|numeric',
         ]);
 
-        $product = Product::all()->where('id', $request->id)->first();
+        try {
+            $product = Product::find($request->id);
 
-        $cart = Cart::create([
-            'quantity' => 1,
-            'total' => $product->price,
-        ]);
+            $userId = DB::table('shoppingcart')->where('identifier', auth()->user()->id)->pluck('identifier')->first();
 
-        $pr = new Product();
-        $pr->carts()->attach($product->id);
+            if ($userId != null) {
 
-        $cart = Cart::all()->where('product_id', $product->id)->first();
+                // if user id is not null then there is an instance, add to it,
+                // if the product is aldready in cart, update quantity
+                // and associate with the product model
+                // cart content will be destroyed when the user logged out.
+                \Cart::add(['id' => $product->id, 'name' => $product->productName, 'qty' => 1, 'price' => $product->price, 'weight' => 1])->associate($product);
 
-        if (isset($cart->products()->product_id) && $product->id == $cart->product_id) {
+            } else {
 
-            try {
+                // if user is null then there is no instance, create one with name of shopping and add to it,
+                // if the product is aldready in cart, update quantity
+                // and associate with product model
+                // cart content will be destroyed when the user logged out.
 
-                $cart->update([
-                    'quantity' => $cart->quantity + 1,
-                    'total' => $cart->total + $product->price,
-                ]);
+                \Cart::instance('shopping')->store(auth()->user()->id);
+                \Cart::add(['id' => $product->id, 'name' => $product->productName, 'qty' => 1, 'price' => $product->price, 'weight' => 1])->associate($product);
 
-            } catch (\Exception $th) {
-
-                Log::error($th->getMessage());
-                return response()->json(['error' => 'Cart couldn\'t be updated.']);
             }
-
-            return response()->json(['success' => 'Cart updated.']);
-
-        } else {
-
-            try {
-
-                Cart::create([
-                    'product_id' => $product->id,
-                    'quantity' => 1,
-                    'total' => $product->price,
-                ]);
-
-            } catch (\Exception $th) {
-                Log::error($th->getMessage());
-                return response()->json(['error' => 'Can\'t add to cart.']);
-            }
-
-            return response()->json(['success' => 'Added to cart.']);
+        } catch (\Exception $th) {
+            Log::error($th->getMessage());
+            return response()->json(['error' => 'Can\'t add to cart.']);
         }
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Cart $cart)
-    {
+        return response()->json(['success' => 'Added to cart.']);
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cart $cart)
+    public function destroy()
     {
-        //
+        if (Gate::denies('manage-cart')) {
+            abort(403);
+        }
+
     }
 }

@@ -31,7 +31,7 @@ jQuery(function () {
         },
         error: function (data) {
           console.log('Error: ', data.responseJSON.errors);
-          $('div#productSuccessAlert').show();
+          $('div#productErrorAlert').show();
           window.setTimeout(function () {
             $('div#productErrorAlert')
               .fadeTo(500, 0)

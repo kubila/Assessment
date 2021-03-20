@@ -23,6 +23,18 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::resource('products', ProductsController::class);
-Route::resource('categories', CategoriesController::class);
-Route::resource('cart', CartController::class);
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::group(['middleware' => 'role:admin'], function () {
+
+    });
+
+    Route::group(['middleware' => 'role:member'], function () {
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+        Route::post('/cart', [CartController::class, 'upsert'])->name('cart.store');
+        Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+    });
+
+    Route::resource('products', ProductsController::class);
+    Route::resource('categories', CategoriesController::class);
+});

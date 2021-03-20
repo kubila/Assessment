@@ -36,6 +36,11 @@ class AuthServiceProvider extends ServiceProvider
             return $user->role_id == 2;
         });
 
+        Gate::define('view-products', function (User $user) {
+            // 2 is admin, 1 is member
+            return $user->role_id == 1 && $user->role_id == 2;
+        });
+
         Gate::define('manage-cart', function (User $user) {
             // 1 is member
             return $user->role_id == 1;
