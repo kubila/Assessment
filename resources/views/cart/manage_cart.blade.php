@@ -35,13 +35,14 @@
             <tbody>
               {{-- {{ dd(Cart::content()) }} --}}
               @foreach (Cart::content() as $item)
+                    <tr>
                     <td class="pro-title"><a href="{{ route('products.show', $item->id) }}">{{ $item->name }}</a></td>
                     <td class="pro-price"><span>{{ $item->price }}</span></td>
                     <td class="pro-quantity">
                         <div class="pro-qty"><input type="number" value="{{ $item->qty }}" disabled></div>
                     </td>
                     <td class="pro-subtotal"><span>{{ $item->subtotal }}</span></td>
-                    <td class="pro-remove"><a href="#"><i class="far fa-trash-alt fa-lg"></i></a></td>
+                    <td class="pro-remove"><a href="#" id="productCartDelete" data-id="{{ $item->rowId }}"><i class="far fa-trash-alt fa-lg"></i></a></td>
                   </tr>
                 @endforeach
             </tbody>

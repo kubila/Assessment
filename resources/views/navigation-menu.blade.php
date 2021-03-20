@@ -11,15 +11,24 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
+              @auth
                 <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" class="navigation-link">
                     {{ __('Dashboard') }}
                 </x-jet-nav-link>
                 <x-jet-nav-link href="{{ route('products.index') }}" :active="request()->routeIs('products.index')" class="navigation-link">
                   {{ __('Products') }}
-              </x-jet-nav-link>
-              <x-jet-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.index')" class="navigation-link">
-                {{ __('Categories') }}
-            </x-jet-nav-link>
+                </x-jet-nav-link>
+                <x-jet-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.index')" class="navigation-link">
+                  {{ __('Categories') }}
+                </x-jet-nav-link>
+              @else
+                <x-jet-nav-link href="{{ route('welcome') }}" :active="request()->routeIs('welcome')" class="navigation-link">
+                    {{ __('Home') }}
+                </x-jet-nav-link>
+                <x-jet-nav-link href="{{ route('showCategories') }}" :active="request()->routeIs('showCategories')" class="navigation-link">
+                  {{ __('Categories') }}
+                </x-jet-nav-link>
+              @endauth
             </ul>
 
             <!-- Right Side Of Navbar -->

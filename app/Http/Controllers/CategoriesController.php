@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class CategoriesController extends Controller
@@ -24,6 +25,10 @@ class CategoriesController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('view-categories')) {
+            abort(403);
+        }
+
         $cats = Category::paginate(10);
         return view('categories.index', ['data' => $cats]);
     }
@@ -35,6 +40,9 @@ class CategoriesController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('manage-categories')) {
+            abort(403);
+        }
         return view('categories.add');
     }
 
@@ -46,6 +54,10 @@ class CategoriesController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
+        if (Gate::denies('manage-categories')) {
+            abort(403);
+        }
+
         try {
 
             Category::create($request->validated());
@@ -66,6 +78,9 @@ class CategoriesController extends Controller
      */
     public function show(Category $category)
     {
+        if (Gate::denies('view-categories')) {
+            abort(403);
+        }
         try {
 
             $category = Product::with('category')->where('category_id', $category->id)->paginate(5);
@@ -87,6 +102,10 @@ class CategoriesController extends Controller
      */
     public function edit(Category $category)
     {
+        if (Gate::denies('manage-categories')) {
+            abort(403);
+        }
+
         return view('categories.add', ['data' => $category]);
     }
 
@@ -99,6 +118,10 @@ class CategoriesController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+        if (Gate::denies('manage-categories')) {
+            abort(403);
+        }
+
         try {
 
             $category->update($request->validated());
@@ -119,6 +142,10 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
+        if (Gate::denies('manage-categories')) {
+            abort(403);
+        }
+
         try {
             $category->destroy($category->id);
         } catch (\Exception $th) {

@@ -26,6 +26,11 @@ class ProductsController extends Controller
      */
     public function index()
     {
+
+        if (Gate::denies('view-products')) {
+            abort(403);
+        }
+
         $products = Product::with('category')->paginate(10);
         return view('products.index', ['data' => $products]);
     }
@@ -37,6 +42,9 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('manage-products')) {
+            abort(403);
+        }
         $cats = Category::all('id', 'name');
         return view('products.add', ['cats' => $cats]);
     }
@@ -49,6 +57,9 @@ class ProductsController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
+        if (Gate::denies('manage-products')) {
+            abort(403);
+        }
 
         $image = Storage::disk('public')->put('images', $request->image);
 
@@ -76,6 +87,9 @@ class ProductsController extends Controller
      */
     public function show(Product $product)
     {
+        if (Gate::denies('view-products')) {
+            abort(403);
+        }
         //$product = Product::with('category')->where('id', $product->id)->first();
         try {
 
@@ -99,6 +113,10 @@ class ProductsController extends Controller
     public function edit(Product $product)
     {
         //$product = Product::with('category')->where('id', $product->id)->first();
+        if (Gate::denies('manage-products')) {
+            abort(403);
+        }
+
         $cats = Category::all('id', 'name'); //->whereNotIn('id', [$product->category_id]);
 
         return view('products.edit', compact('product', 'cats'));
@@ -113,6 +131,9 @@ class ProductsController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+        if (Gate::denies('manage-products')) {
+            abort(403);
+        }
 
         $data = $request->only(['productName', 'price', 'description', 'category_id']);
 
@@ -143,7 +164,9 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
-
+        if (Gate::denies('manage-products')) {
+            abort(403);
+        }
         try {
             Storage::disk('public')->delete('images', $product->image);
             $product->category()->dissociate();

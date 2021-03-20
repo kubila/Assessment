@@ -14,7 +14,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        //Product::class => ProductPolicy::class,
+        //Category::class => CategoryPolicy::class,
     ];
 
     /**
@@ -31,14 +32,19 @@ class AuthServiceProvider extends ServiceProvider
             return $user->role_id == 2;
         });
 
+        Gate::define('view-categories', function (User $user) {
+            // 1 is member, 2 is admin
+            return $user->role_id == 1 || $user->role_id == 2;
+        });
+
         Gate::define('manage-products', function (User $user) {
             // 2 is admin
             return $user->role_id == 2;
         });
 
         Gate::define('view-products', function (User $user) {
-            // 2 is admin, 1 is member
-            return $user->role_id == 1 && $user->role_id == 2;
+            // 1 is member, 2 is admin
+            return $user->role_id == 1 || $user->role_id == 2;
         });
 
         Gate::define('manage-cart', function (User $user) {

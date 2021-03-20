@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -58,7 +59,7 @@ class CartController extends Controller
                 // if the product is aldready in cart, update quantity
                 // and associate with the product model
                 // cart content will be destroyed when the user logged out.
-                \Cart::add(['id' => $product->id, 'name' => $product->productName, 'qty' => 1, 'price' => $product->price, 'weight' => 1])->associate($product);
+                Cart::add(['id' => $product->id, 'name' => $product->productName, 'qty' => 1, 'price' => $product->price, 'weight' => 1])->associate($product);
 
             } else {
 
@@ -67,8 +68,8 @@ class CartController extends Controller
                 // and associate with product model
                 // cart content will be destroyed when the user logged out.
 
-                \Cart::instance('shopping')->store(auth()->user()->id);
-                \Cart::add(['id' => $product->id, 'name' => $product->productName, 'qty' => 1, 'price' => $product->price, 'weight' => 1])->associate($product);
+                Cart::instance('shopping')->store(auth()->user()->id);
+                Cart::add(['id' => $product->id, 'name' => $product->productName, 'qty' => 1, 'price' => $product->price, 'weight' => 1])->associate($product);
 
             }
         } catch (\Exception $th) {
@@ -82,14 +83,30 @@ class CartController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(Request $request)
     {
+
         if (Gate::denies('manage-cart')) {
             abort(403);
         }
+
+        $request->validate([
+            'id' => 'required',
+        ]);
+
+        try {
+
+            Cart::remove($request->id);
+
+        } catch (\Exception $th) {
+            Log::error($th->getMessage());
+            return response()->json(['error' => 'Couldn\'t delete from the cart.'], 400);
+        }
+
+        return response()->json(['success' => 'Product deleted from the cart.']);
 
     }
 }

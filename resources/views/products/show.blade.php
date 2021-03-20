@@ -38,10 +38,13 @@
           <div class="mx-2 my-3">
             <div class="p-4 mt-4 ml-2">
               <div class="p-2"><h4 class="text-justify">{{ $data->productName }}</h4></div>
-              <div class="p-2 text-justify"><p class="text-justify">{{ $data->price }}</p></div>
+              @auth
+                <div class="p-2 text-justify"><p class="text-justify">{{ $data->price }}</p></div>
+              @endauth
               <div class="p-2"><p class="text-justify">{{ $data->description }}</p></div>
-              <div class="p-2 text-justify"><a class="btn btn-dark" href="{{ route('cart.store') }}" id="procuctSender" data-id="{{ $data->id }}" ><i class="fas fa-cart-plus fa-lg"></i><span class="ml-2">Add To Cart</span></a></div>
-
+              @can('manage-cart')
+                <div class="p-2 text-justify"><a class="btn btn-dark" href="{{ route('cart.store') }}" id="procuctSender" data-id="{{ $data->id }}" ><i class="fas fa-cart-plus fa-lg"></i><span class="ml-2">Add To Cart</span></a></div>
+              @endcan
             </div>
           </div>
         </div>

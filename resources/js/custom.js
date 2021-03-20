@@ -5,6 +5,33 @@ jQuery(function () {
     },
   });
 
+  $('a#productCartDelete').on('click', function (event) {
+    event.preventDefault();
+    // get the uuid from link's data-id prop
+    let id = $(this).attr('data-id');
+    // get closest row
+    let row = $(this).closest('tr');
+
+    if (id != undefined) {
+      $.ajax({
+        url: '/cart/' + id,
+        type: 'DELETE',
+        data: {
+          id: id,
+        },
+        dataType: 'json',
+        success: function () {
+          row.remove();
+          id, (row = undefined);
+        },
+        error: function (data) {
+          console.log(data.errors);
+          id, (row = undefined);
+        },
+      });
+    }
+  });
+
   $('a#procuctSender').on('click', function (event) {
     event.preventDefault();
     let id = $(this).attr('data-id');

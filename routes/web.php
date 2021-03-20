@@ -18,16 +18,15 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+Route::get('/product/{product}', [WelcomeController::class, 'showProduct'])->name('showProduct');
+Route::get('/categorySingle/{category}', [WelcomeController::class, 'showCategoryProducts'])->name('showCategoryProducts');
+Route::get('/categoryList', [WelcomeController::class, 'showCategories'])->name('showCategories');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
-
-    Route::group(['middleware' => 'role:admin'], function () {
-
-    });
 
     Route::group(['middleware' => 'role:member'], function () {
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

@@ -19,13 +19,13 @@
   <div class="row">
       <div class="col-md-12">
 
-        @if(auth()->user()->role_id == 2)
+        @can('manage-products')
 
           <div class="my-3">
             <a href="{{ route('products.create') }}" class="btn btn-dark"><i class="fas fa-plus-square"></i><span class="ml-2">Add Product</span></a>
           </div>
 
-        @endif
+        @endcan
         <hr>
         <div class="table-responsive">
           <table class="table table-sm table-hover bg-white">
