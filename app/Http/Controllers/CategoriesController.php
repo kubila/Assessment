@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Log;
 
 class CategoriesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -117,7 +123,7 @@ class CategoriesController extends Controller
             $category->destroy($category->id);
         } catch (\Exception $th) {
             Log::error($th->getMessage());
-            return response()->json(['error' => 'Caouldn\'t delete the category.'], 400);
+            return response()->json(['error' => 'Couldn\'t delete the category.'], 400);
         }
 
         return response()->json(['success' => 'Category deleted successfully.']);

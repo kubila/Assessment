@@ -33,7 +33,11 @@
               <th class="w-auto text-left align-middle thsize">Description</th>
               <th class="w-auto text-left align-middle thsize">Price</th>
               <th class="w-auto text-primary text-left align-middle thsize">Category</th>
-              <th class="w-auto text-secondary text-center align-middle buttons"><strong>Actions</strong></th>
+              @if(auth()->user()->role_id == 2)
+                <th class="w-auto text-dark text-center align-middle buttons"><strong>Actions</strong></th>
+              @elseif(auth()->user()->role_id == 1)
+                <th class="w-auto text-dark text-center align-middle buttons"><strong>Cart</strong></th>
+              @endif
             </tr>
           </thead>
           <tfoot>
@@ -44,7 +48,11 @@
               <th class="w-auto text-left align-middle thsize">Description</th>
               <th class="w-auto text-left align-middle thsize">Price</th>
               <th class="w-auto text-primary text-left align-middle thsize">Category</th>
-              <th class="w-auto text-secondary text-center align-middle buttons"><strong>Actions</strong></th>
+              @if(auth()->user()->role_id == 2)
+                <th class="w-auto text-dark text-center align-middle buttons"><strong>Actions</strong></th>
+              @elseif(auth()->user()->role_id == 1)
+                <th class="w-auto text-dark text-center align-middle buttons"><strong>Cart</strong></th>
+              @endif
             </tr>
           </tfoot>
           <tbody>
@@ -78,17 +86,28 @@
               </td>
 
               <td class="text-center align-middle text-justify">
-                <div class="pb-1 pr-1 d-inline-block">
-                  <a class="btn btn-secondary btn-sm " id="product_edit" href="{{ route('products.edit', $item->id) }}">
-                    <i class="fas fa-edit"></i>
-                  </a>
-                </div>
 
-                <div class="pr-1 d-inline-block">
-                  <button type="button" class="btn btn-danger btn-sm" id="product_delete" value="{{ $item->id }}" onclick="$.productRemove;">
-                    <i class="fas fa-times-circle"></i>
-                  </button>
-                </div>
+                @if(auth()->user()->role_id == 2)
+
+                  <div class="pb-1 pr-1 d-inline-block">
+                    <a class="btn btn-secondary btn-sm " id="product_edit" href="{{ route('products.edit', $item->id) }}">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                  </div>
+
+                  <div class="pr-1 d-inline-block">
+                    <button type="button" class="btn btn-danger btn-sm" id="product_delete" value="{{ $item->id }}">
+                      <i class="fas fa-times-circle"></i>
+                    </button>
+                  </div>
+
+                @elseif(auth()->user()->role_id == 1)
+
+                  <div class="pb-1 pr-1 d-inline-block">
+                    <a href="{{ route('cart.store') }}" id="procuctSender" data-id="{{ $item->id }}" class="text-dark"><i class="fas fa-cart-plus fa-2x"></i><span class="ml-2"></span></a>
+                  </div>
+
+                @endif
               </td>
             </tr>
           @endforeach
@@ -101,6 +120,14 @@
     </div> <!-- table-responsive -->
     <div class="mt-4 d-flex justify-content-center">{{ $data->links() }}</div>
   </div>
+</div>
+
+<div class="alert alert-success alerter" id="productSuccessAlert" role="alert">
+  <strong>Product added to cart successfully. </strong>
+</div>
+
+<div class="alert alert-danger alerter" id="productErrorAlert" role="alert" >
+  <strong>Product couldn't added to cart.</strong>
 </div>
 <div class="modal fade" id="productDeleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

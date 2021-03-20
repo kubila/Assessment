@@ -19,6 +19,7 @@
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
         <script defer src="{{ asset('fa/js/all.min.js') }}"></script>
+
     </head>
     <body class="font-sans antialiased bg-light">
         <x-jet-banner />

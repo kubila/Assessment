@@ -27,12 +27,12 @@
       @if (Route::has('login'))
           <div class="">
               @auth
-                  <a href="{{ url('/dashboard') }}" class="text-muted">Dashboard</a>
+                  <a href="{{ url('/dashboard') }}" class=" navigation-link text-muted">Dashboard</a>
               @else
-                  <a href="{{ route('login') }}" class="text-muted">Log in</a>
+                  <a href="{{ route('login') }}" class="navigation-link text-muted">Log in</a>
 
                   @if (Route::has('register'))
-                      <a href="{{ route('register') }}" class="ml-4 text-muted">Register</a>
+                      <a href="{{ route('register') }}" class="navigation-link ml-4 text-muted">Register</a>
                   @endif
               @endif
           </div>
@@ -42,7 +42,7 @@
   <div class="container my-3 pt-5 px-5">
     <div class="row justify-content-center px-4">
       <div class="col-md-12">
-        <div class="mx-auto"><h5>Listing products for visitors, price appears only if you're logged in.</h5></div>
+        <div class="mx-auto"><h5>Listing products for visitors, price appears only when you're logged in.</h5></div>
         <div class="row">
           @foreach ($data as $item)
             <div class="col-md-4 col-lg-3 col-sm-6 my-2">
@@ -51,7 +51,7 @@
                 >
                 <div class="p-4">
                   <div class="d-flex justify-content-center align-items-start">
-                    <a href="#" target="_blank">
+                    <a href="{{ route('products.show', $item->id) }}">
                       <img
                         src=@php echo \Illuminate\Support\Facades\Storage::url($item->image) @endphp
                         alt="product_pic"
@@ -64,7 +64,7 @@
                   <div class="d-flex justify-content-center pt-3 align-items-end">
                     <div class="px-2">
 
-                      <a href="#" target="_blank" class="text-justify">
+                      <a href="{{ route('products.show', $item->id) }}" class="text-justify">
                         {{ $item->productName }}
                       </a>
 

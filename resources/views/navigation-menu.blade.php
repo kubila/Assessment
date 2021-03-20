@@ -11,13 +11,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" class="navigation-link">
                     {{ __('Dashboard') }}
                 </x-jet-nav-link>
-                <x-jet-nav-link href="{{ route('products.index') }}" :active="request()->routeIs('products.index')" class="">
+                <x-jet-nav-link href="{{ route('products.index') }}" :active="request()->routeIs('products.index')" class="navigation-link">
                   {{ __('Products') }}
               </x-jet-nav-link>
-              <x-jet-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.index')" class="">
+              <x-jet-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.index')" class="navigation-link">
                 {{ __('Categories') }}
             </x-jet-nav-link>
             </ul>
@@ -68,6 +68,10 @@
 
                 <!-- Settings Dropdown -->
                 @auth
+                  <x-jet-nav-link href="{{ route('cart.index') }}" :active="request()->routeIs('cart.index')" class="navigation-link text-dark mr-2">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                  </x-jet-nav-link>
+
                     <x-jet-dropdown id="settingsDropdown">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())

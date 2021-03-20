@@ -149,7 +149,7 @@ class ProductsController extends Controller
             $product->destroy($product->id);
         } catch (\Exception $th) {
             Log::error($th->getMessage());
-            return response()->json(['error' => 'Caouldn\'t delete the product.'], 400);
+            return response()->json(['error' => 'Couldn\'t delete the product.'], 400);
         }
 
         return response()->json(['success' => 'Product deleted successfully.']);

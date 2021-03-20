@@ -18,52 +18,60 @@
     @endif
   <div class="row">
       <div class="col-md-12">
-        <div class="my-3">
-          <a href="{{ route('categories.create') }}" class="btn btn-dark"><i class="fas fa-plus-square"></i><span class="ml-2">Create Category</span></a>
-          <hr>
-        </div>
-
+        @if(auth()->user()->role_id == 2)
+          <div class="my-3">
+            <a href="{{ route('categories.create') }}" class="btn btn-dark"><i class="fas fa-plus-square"></i><span class="ml-2">Add Category</span></a>
+            <hr>
+          </div>
+        @endif
         <div class="table-responsive">
           <table class="table table-sm table-hover bg-white">
             <thead>
               <tr>
                 <th class="w-auto text-left align-middle">No</th>
                 <th class="w-auto text-left align-middle text-primary">Category Name</th>
-                <th class="w-auto text-secondary text-center align-middle buttons"><strong>Actions</strong></th>
+                @if(auth()->user()->role_id == 2)
+                  <th class="w-auto text-dark text-center align-middle buttons"><strong>Actions</strong></th>
+                @endif
               </tr>
             </thead>
             <tfoot>
               <tr>
                 <th class="w-auto text-left align-middle">No</th>
                 <th class="w-auto text-left align-middle text-primary">Category Name</th>
-                <th class="w-auto text-secondary text-center align-middle buttons"><strong>Actions</strong></th>
+                @if(auth()->user()->role_id == 2)
+                  <th class="w-auto text-dark text-center align-middle buttons"><strong>Actions</strong></th>
+                @endif
               </tr>
             </tfoot>
             <tbody>
             @if ($data->count() > 0)
               @foreach ($data as $item)
-              <tr class="trsize">
+                <tr class="">
 
-                <td class="text-left align-middle text-justify">{{ $item->id }}</td>
+                  <td class="text-left align-middle text-justify">{{ $item->id }}</td>
 
-                <td class="text-left align-middle text-justify">
-                  <a id="category_title" href="{{ route('categories.show', $item->id) }}" class="text-primary">{{$item->name }}</a>
-                </td>
+                  <td class="text-left align-middle text-justify">
+                    <a id="category_title" href="{{ route('categories.show', $item->id) }}" class="text-primary">{{$item->name }}</a>
+                  </td>
 
-                <td class="text-center align-middle text-justify">
-                  <div class="pb-1 pr-1 d-inline-block">
-                    <a class="btn btn-secondary btn-sm " id="category_edit" href="{{ route('categories.edit', $item->id) }}">
-                      <i class="fas fa-edit"></i>
-                    </a>
-                  </div>
+                  @if(auth()->user()->role_id == 2)
 
-                  <div class="pr-1 d-inline-block">
-                    <button type="button" class="btn btn-danger btn-sm" id="category_delete" value="{{ $item->id }}" onclick="$.categoryRemove;">
-                      <i class="fas fa-times-circle"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                    <td class="text-center align-middle text-justify">
+                      <div class="pb-1 pr-1 d-inline-block">
+                        <a class="btn btn-secondary btn-sm " id="category_edit" href="{{ route('categories.edit', $item->id) }}">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                      </div>
+
+                      <div class="pr-1 d-inline-block">
+                        <button type="button" class="btn btn-danger btn-sm" id="category_delete" value="{{ $item->id }}">
+                          <i class="fas fa-times-circle"></i>
+                        </button>
+                      </div>
+                    </td>
+                  @endif
+                </tr>
               @endforeach
             @else
               <div class="mx-auto">No records to display.</div>

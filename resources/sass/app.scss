@@ -6,6 +6,10 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import 'bootswatch';
+@import 'variables2';
+@import 'variabls';
+@import 'cart';
 
 @each $breakpoint in map-keys($grid-breakpoints) {
   @include media-breakpoint-up($breakpoint) {
@@ -56,4 +60,23 @@
 
 .icon {
   padding-right: 0.5rem;
+}
+
+.navigation-link {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.alerter {
+  display: none;
+  z-index: 1008 !important;
+  right: 20px;
+  top: 160px;
+  position: fixed;
+}
+.alert-show {
+  display: block !important;
+}
+.alert-hide {
+  display: none !important;
 }

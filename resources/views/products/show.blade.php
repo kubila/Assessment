@@ -40,12 +40,39 @@
               <div class="p-2"><h4 class="text-justify">{{ $data->productName }}</h4></div>
               <div class="p-2 text-justify"><p class="text-justify">{{ $data->price }}</p></div>
               <div class="p-2"><p class="text-justify">{{ $data->description }}</p></div>
-              <div class="p-2 text-justify"><a class="btn btn-dark" href="#" value="">Add To Cart</a></div>
+              <div class="p-2 text-justify"><a class="btn btn-dark" href="{{ route('cart.store') }}" id="procuctSender" data-id="{{ $data->id }}" ><i class="fas fa-cart-plus fa-lg"></i><span class="ml-2">Add To Cart</span></a></div>
+
             </div>
           </div>
         </div>
       </div>
       <hr>
+    </div>
+  </div>
+  <div class="alert alert-success alerter" id="productSuccessAlert" role="alert">
+    <strong>Product added to cart successfully. </strong>
+  </div>
+
+  <div class="alert alert-danger alerter" id="productErrorAlert" role="alert" >
+    <strong>Product couldn't added to cart.</strong>
+  </div>
+
+  <div class="modal fade" id="productDeleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" id="confirmCloseProductDelete" class="close pr-3 pt-2" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <h5 class="lead">Are you sure?</h5>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="confirmCancelProductDelete" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" id="confirmProductDelete" data-dismiss="modal">Delete</button>
+        </div>
+      </div>
     </div>
   </div>
 </x-app-layout>

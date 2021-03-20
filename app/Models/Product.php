@@ -18,6 +18,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class, 'carts_products')->withPivot('cart_id', 'product_id');
+    }
+
     // public function getRouteKeyName()
     // {
     //     return 'productName';

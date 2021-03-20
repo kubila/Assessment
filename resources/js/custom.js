@@ -5,8 +5,54 @@ jQuery(function () {
     },
   });
 
-  $.productRemove = $('button#product_delete').on('click', function () {
-    $('div#productDeleteModal').modal('show');
+  $('a#procuctSender').on('click', function (event) {
+    event.preventDefault();
+    let id = $(this).attr('data-id');
+
+    if (id !== undefined) {
+      $.ajax({
+        url: '/cart',
+        type: 'POST',
+        data: {
+          id: id,
+        },
+        dataType: 'json',
+        success: function () {
+          $('div#productSuccessAlert').show();
+          window.setTimeout(() => {
+            $('div#productSuccessAlert')
+              .fadeTo(500, 0)
+              .slideUp(500, function () {
+                $(this).hide();
+              });
+          }, 4000);
+
+          id = undefined;
+        },
+        error: function (data) {
+          console.log('Error: ', data.responseJSON.errors);
+          $('div#productSuccessAlert').show();
+          window.setTimeout(function () {
+            $('div#productErrorAlert')
+              .fadeTo(500, 0)
+              .slideUp(500, function () {
+                $(this).hide();
+              })
+              .toggle();
+          }, 4000);
+          id = undefined;
+        },
+      });
+    }
+  });
+
+  $('button#product_delete').on('click', function () {
+    $('div#productDeleteModal').modal({
+      backdrop: 'static',
+      keyboard: false,
+      show: true,
+    });
+
     let id = $(this).attr('value');
     let satir = $(this).closest('tr');
 
@@ -42,8 +88,13 @@ jQuery(function () {
     });
   });
 
-  $.categoryRemove = $('button#category_delete').on('click', function () {
-    $('div#categoryDeleteModal').modal('show');
+  $('button#category_delete').on('click', function () {
+    $('div#categoryDeleteModal').modal({
+      backdrop: 'static',
+      keyboard: false,
+      show: true,
+    });
+
     let id = $(this).attr('value');
     let satir = $(this).closest('tr');
 
