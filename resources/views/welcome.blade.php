@@ -97,7 +97,7 @@
           @foreach ($data as $item)
             <div class="col-md-4 col-lg-3 col-sm-6 my-2">
               <div
-                class="bg-light product border border-dark rounded-lg mx-1"
+                class="bg-light card product rounded-lg mx-1"
                 >
                 <div class="p-4">
                   <div class="d-flex justify-content-center align-items-start">
@@ -117,16 +117,17 @@
                       <a href="{{route('showProduct', $item->id) }}" class="text-justify">
                         {{ $item->productName }}
                       </a>
-
                       @auth
-                        <p class="text-secondary mb-0">{{ $item->price }}</p>
+                        <div class="">
+                          <p class="text-muted mb-0">{{ $item->price }}</p>
+                        </div>
                       @endauth
-
                     </div>
                   </div>
                   {{-- <div class="d-flex justify-content-center pt-2">{{ date('F d, Y', strtotime($item->created_at)) }}</div> --}}
                 </div>
               </div>
+
             </div>
           @endforeach
         </div>
