@@ -29,3 +29,5 @@
 #### And finally run.
 
 `npm run prod`
+
+### There is caching implemented, so configure redis to work properly in your machine.

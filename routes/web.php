@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+Route::get('/', [WelcomeController::class, 'homeProducts'])->name('welcome');
 Route::get('/product/{product}', [WelcomeController::class, 'showProduct'])->name('showProduct');
 Route::get('/categorySingle/{category}', [WelcomeController::class, 'showCategoryProducts'])->name('showCategoryProducts');
 Route::get('/categoryList', [WelcomeController::class, 'showCategories'])->name('showCategories');

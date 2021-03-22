@@ -4,14 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Request;
 
 class WelcomeController extends Controller
 {
-    public function index()
+
+    /**
+     * Display the specified resource.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function homeProducts(Request $request)
     {
-        $product = Product::with('category')->paginate(12);
-        return view('welcome', ['data' => $product]);
+        // if ($cached = Redis::get('products.all')) {
+        //     $cachedProducts = json_decode($cached);
+        //     //dd($cachedProducts);
+        //     return view('welcome', ['data' => $cachedProducts]);
+        // }
+
+        $page = $request->has('page') ? $request->query('page') : 1;
+        $cache = Cache::remember('products.all_page_' . $page, now()->addDay(), function () {
+            $products = Product::with('category')->paginate(12);
+            return $products;
+        });
+
+        //Redis::setex('products.all', 60 * 60, $products);
+
+        return view('welcome', ['data' => $cache]);
     }
 
     /**
