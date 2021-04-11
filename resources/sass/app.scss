@@ -80,3 +80,27 @@
 .alert-hide {
   display: none !important;
 }
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  background-color: #f5f5f5;
+  width: 100%;
+  height: 10rem;
+}
+
+.svg-icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+  fill: #1c2129;
+}
+
+.svg-icon circle {
+  stroke: #1c2129;
+  stroke-width: 1;
+}

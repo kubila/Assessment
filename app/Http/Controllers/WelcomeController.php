@@ -12,7 +12,7 @@ class WelcomeController extends Controller
 {
 
     /**
-     * Display the specified resource.
+     * Display a listing of the resource.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -26,10 +26,8 @@ class WelcomeController extends Controller
 
         $page = $request->has('page') ? $request->query('page') : 1;
         $cache = Cache::remember('products.all_page_' . $page, now()->addDay(), function () {
-            $products = Product::with('category')->paginate(12);
-            return $products;
+            return Product::with('category')->paginate(12);
         });
-
         //Redis::setex('products.all', 60 * 60, $products);
 
         return view('welcome', ['data' => $cache]);
@@ -44,36 +42,53 @@ class WelcomeController extends Controller
     {
         try {
 
-            $product = Product::with('category')->findOrFail($product->id);
+            $cache = Cache::remember('products.single_' . $product->id, now()->addMinute(720), function () use ($product) {
+
+                return Product::with('category')->findOrFail($product->id);
+
+            });
+
         } catch (\Exception $th) {
 
             Log::error($th->getMessage());
             return back()->with(['error' => 'Not found.']);
 
         }
-        return view('products.show', ['data' => $product]);
+        return view('products.show', ['data' => $cache]);
     }
 
     /**
-     * Display the specified resource
+     * Display a listing of the resource.
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function showCategories()
+    public function showCategories(Request $request)
     {
-        $cats = Category::paginate(10);
-        return view('categories.index', ['data' => $cats]);
+
+        $page = $request->has('page') ? $request->query('page') : 1;
+        $cache = Cache::remember('categories.all_page_' . $page, now()->addDay(), function () {
+            return Category::paginate(10);
+
+        });
+
+        return view('categories.index', ['data' => $cache]);
     }
 
     /**
-     * Display the specified resource.
+     * Display a listing of the resource.
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function showCategoryProducts(Category $category)
+    public function showCategoryProducts(Category $category, Request $request)
     {
         try {
 
-            $category = Product::with('category')->where('category_id', $category->id)->paginate(15);
+            $page = $request->has('page') ? $request->query('page') : 1;
+            $cache = Cache::remember('categories.single.products_all_' . $category->id . '_page_' . $page, now()->addMinute(720), function () use ($category) {
+                return Product::with('category')->where('category_id', $category->id)->paginate(15);
+
+            });
 
         } catch (\Exception $th) {
 
@@ -81,7 +96,7 @@ class WelcomeController extends Controller
             return back()->with(['error' => 'Not found.']);
 
         }
-        return view('show', ['data' => $category]);
+        return view('show', ['data' => $cache]);
     }
 
 }

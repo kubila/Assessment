@@ -24,6 +24,7 @@
     </style>
 </head>
 <body>
+  <div style="min-height: 100vh; position: relative;">
   <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom sticky-top">
     <div class="container">
         <!-- Logo -->
@@ -76,7 +77,7 @@
         </div>
     </div>
 </nav>
-  <div class="container my-3 pt-5 px-5">
+  <div class="container my-3 pt-5 px-5" style="padding-bottom: 10rem;">
 
     @if (session('error'))
       <div class="container">
@@ -137,5 +138,22 @@
       </div>
     </div>
   </div>
+  <footer  id="footer">
+    <div class="d-flex justify-content-between">
+      <div class="mt-3 ml-2">
+        <p>All rights reserved <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </div>
+      <div class="mt-3 ml-2">
+
+        <p class="lead">&copy; {{ now()->year()->format('Y-m-d') }}  @ {{ config('app.name') }}  </p>
+      </div>
+      <div class="mt-3 ml-2">
+        <a href="#" onclick="window.scrollTo({top: 0, left:0, behavior: 'smooth'});"><svg class="svg-icon" viewBox="0 0 20 20">
+          <path d="M13.889,11.611c-0.17,0.17-0.443,0.17-0.612,0l-3.189-3.187l-3.363,3.36c-0.171,0.171-0.441,0.171-0.612,0c-0.172-0.169-0.172-0.443,0-0.611l3.667-3.669c0.17-0.17,0.445-0.172,0.614,0l3.496,3.493C14.058,11.167,14.061,11.443,13.889,11.611 M18.25,10c0,4.558-3.693,8.25-8.25,8.25c-4.557,0-8.25-3.692-8.25-8.25c0-4.557,3.693-8.25,8.25-8.25C14.557,1.75,18.25,5.443,18.25,10 M17.383,10c0-4.07-3.312-7.382-7.383-7.382S2.618,5.93,2.618,10S5.93,17.381,10,17.381S17.383,14.07,17.383,10"></path>
+        </svg></a>
+      </div>
+    </div>
+  </footer>
+</div>
 </body>
 </html>
