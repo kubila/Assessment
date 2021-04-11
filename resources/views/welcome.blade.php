@@ -145,7 +145,7 @@
       </div>
       <div class="mt-3 ml-2">
 
-        <p class="lead">&copy; {{ now()->year()->format('Y-m-d') }}  @ {{ config('app.name') }}  </p>
+        <p class="lead">&copy; {{ now()->format('Y-m-d') }}  @ {{ config('app.name') }}  </p>
       </div>
       <div class="mt-3 ml-2">
         <a href="#" onclick="window.scrollTo({top: 0, left:0, behavior: 'smooth'});"><svg class="svg-icon" viewBox="0 0 20 20">

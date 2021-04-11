@@ -42,7 +42,7 @@ class WelcomeController extends Controller
     {
         try {
 
-            $cache = Cache::remember('products.single_' . $product->id, now()->addMinute(720), function () use ($product) {
+            $cache = Cache::remember('products.single_' . $product->id, now()->addMinutes(720), function () use ($product) {
 
                 return Product::with('category')->findOrFail($product->id);
 
@@ -85,7 +85,7 @@ class WelcomeController extends Controller
         try {
 
             $page = $request->has('page') ? $request->query('page') : 1;
-            $cache = Cache::remember('categories.single.products_all_' . $category->id . '_page_' . $page, now()->addMinute(720), function () use ($category) {
+            $cache = Cache::remember('categories.single.products_all_' . $category->id . '_page_' . $page, now()->addMinutes(720), function () use ($category) {
                 return Product::with('category')->where('category_id', $category->id)->paginate(15);
 
             });
