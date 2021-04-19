@@ -1,12 +1,11 @@
 <?php
 
+use App\Events\NewUserRegistered;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\WelcomeController;
 use App\Models\User;
-use App\Notifications\UserRegistered;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
@@ -58,7 +57,7 @@ Route::get('blog/{id}/views', function ($id) {
 
 Route::get('/notify', function () {
     $user = User::find(auth()->id());
-
-    Notification::send($user, new UserRegistered($user));
+    NewUserRegistered::dispatch($user);
+    //Notification::send($user, new UserRegistered($user));
 
 });
