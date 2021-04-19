@@ -30,9 +30,9 @@ class ProductsController extends Controller
         if (Gate::denies('view-products')) {
             abort(403);
         }
-
+        $product = Product::first();
         $products = Product::with('category')->paginate(10);
-        return view('products.index', ['data' => $products]);
+        return view('products.index', ['data' => $products, 'item' => $product]);
     }
 
     /**
@@ -177,5 +177,26 @@ class ProductsController extends Controller
         }
 
         return response()->json(['success' => 'Product deleted successfully.']);
+    }
+
+    public function singleProduct(Product $product)
+    {
+        try {
+
+            $product = Product::query()
+                ->select('products.id as product_id', 'products.productName as product_name', 'products.image as image', 'products.description as description')
+                ->addSelect('products.price as price')
+                ->addSelect('categories.id as category_id')
+                ->addSelect('categories.name as category_name')
+                ->join('categories', 'categories.id', '=', 'products.category_id')
+                ->where('products.id', '=', $product->id)
+                ->first();
+
+        } catch (\Exception $th) {
+            Log::error($th->getMessage());
+            return response()->json(['error' => 'Couldn\'t find the product.'], 400);
+        }
+
+        return response()->json(['success' => $product], 200);
     }
 }

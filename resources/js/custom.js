@@ -156,4 +156,79 @@ jQuery(function () {
       id, (satir = undefined);
     });
   });
+
+  $('button#product_edit').on('click', function () {
+    $('div#productEditModal').modal({
+      backdrop: 'static',
+      keyboard: false,
+      show: true,
+    });
+
+    let id = $(this).attr('value');
+    let satir = $(this).closest('tr');
+
+    $.ajax({
+      url: '/singleProduct/' + id,
+      type: 'GET',
+      data: {
+        satir: id,
+      },
+      dataType: 'json',
+      success: function (data) {
+        if (data.success) {
+          $('input#productName').val(data.success.product_name);
+          $('input#description').val(data.success.description);
+          $('input#price').val(data.success.price);
+
+          var opt = `<option value="${data.success.category_id}">${data.success.category_name}</option>`;
+          $('select#category_id').append(opt);
+          // $.each(data.success, function () {
+          //   var opt = `<option value="${this.category_id}">${this.category_name}</option>`;
+          //   $('select#category_id').append(opt);
+          // });
+
+          //$('select#category_id').val(data.success.category_name);
+          console.log(data.success.product_id);
+        }
+        id, (satir = undefined);
+      },
+      error: function (data) {
+        console.log('Error: ', data.responseJSON.errors);
+        id, (satir = undefined);
+      },
+    });
+
+    $('button#confirmProductEdit').on('click', function () {
+      if (id !== undefined && satir !== undefined) {
+        $.ajax({
+          url: '/singleProduct/' + id,
+          type: 'GET',
+          data: {
+            satir: id,
+          },
+          dataType: 'json',
+          success: function (data) {
+            if (data.success) {
+              var tr = `<tr id="${data.success.product_id}"><td>${data.success.product_id}</td><td>${data.success.product_name}</td></tr>`;
+              $('#tbody').append(tr);
+              console.log(data.success.product_id, tr);
+            }
+            id, (satir = undefined);
+          },
+          error: function (data) {
+            console.log('Error: ', data.responseJSON.errors);
+            id, (satir = undefined);
+          },
+        });
+      }
+    });
+
+    $('button#confirmCancelProductEdit').on('click', function () {
+      id, (satir = undefined);
+    });
+
+    $('button#confirmCloseProductEdit').on('click', function () {
+      id, (satir = undefined);
+    });
+  });
 });

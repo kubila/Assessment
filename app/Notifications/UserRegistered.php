@@ -5,14 +5,13 @@ namespace App\Notifications;
 use App\Mail\UserRegisteredMail;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class UserRegistered extends Notification
 {
     use Queueable;
-    private $user;
+    public $user;
 
     /**
      * Create a new notification instance.
@@ -43,10 +42,7 @@ class UserRegistered extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new UserRegisteredMail)
-                    ->line('You have been registered to our system.')
-                    ->action('Click to verify', url('/verify'))
-                    ->line('Thank you for using our application!');
+        return (new UserRegisteredMail($this->user))->to($this->user->email);
     }
 
     /**

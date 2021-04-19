@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('products', ProductsController::class);
     Route::resource('categories', CategoriesController::class);
+    Route::get('singleProduct/{product}', [ProductsController::class, 'singleProduct']);
 });
 
 Route::get('wasd/{id}', function ($id) {
@@ -56,8 +57,8 @@ Route::get('blog/{id}/views', function ($id) {
 });
 
 Route::get('/notify', function () {
-  $user = User::first();
+    $user = User::find(auth()->id());
 
-  Notification::send($user, new UserRegistered);
+    Notification::send($user, new UserRegistered($user));
 
 });
