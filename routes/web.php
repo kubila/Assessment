@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('products', ProductsController::class);
     Route::resource('categories', CategoriesController::class);
-    Route::get('singleProduct/{product}', [ProductsController::class, 'singleProduct']);
+    Route::get('singleProduct/{productName}', [ProductsController::class, 'singleProduct']);
 });
 
 Route::get('wasd/{id}', function ($id) {

@@ -231,4 +231,29 @@ jQuery(function () {
       id, (satir = undefined);
     });
   });
+
+  $('#name').attr('maxLength', 12);
+  let name = $('#name').val();
+  console.log(name);
+  let name_length = $('#name').attr('maxLength');
+  $('#name').val('');
+  console.log(name);
+  $('form#shityForm').validate({
+    rules: {
+      name: {
+        required: true,
+        minlength: name_length ? name_length : 13,
+      },
+      email: {
+        required: true,
+        email: true,
+      },
+      tax_number: {
+        required: true,
+        number: true,
+        minlength: 2,
+        maxlength: 11,
+      },
+    },
+  });
 });

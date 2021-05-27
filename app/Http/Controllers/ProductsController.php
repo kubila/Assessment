@@ -179,8 +179,12 @@ class ProductsController extends Controller
         return response()->json(['success' => 'Product deleted successfully.']);
     }
 
-    public function singleProduct(Product $product)
+    public function singleProduct($productName)
     {
+        $product = Product::query()->select('id')->where('productName', '=', $productName)->first();
+
+        $this->authorize('view', $product);
+
         try {
 
             $product = Product::query()

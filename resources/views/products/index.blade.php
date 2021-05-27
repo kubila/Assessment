@@ -162,7 +162,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="productEditModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  {{-- <div class="modal fade" id="productEditModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -215,6 +215,61 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" id="confirmCancelProductEdit" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-danger" id="confirmProductEdit" data-dismiss="modal">Send Request</button>
+        </div>
+      </div>
+    </div>
+  </div> --}}
+
+  <div class="modal fade" id="productEditModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="text-left">Edit Product</h6>
+            <button type="button" id="" class="close pr-3 pt-2" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <div class="card-body">
+            <form method="POST" onsubmit="return false" id="shityForm" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <x-jet-label for="name" value="{{ __('Name') }}" />
+
+                    <input type="text" id="name" name="name" class="form-control" value="(___)_-554-5454"/>
+                </div>
+
+                <div class="form-group">
+                  <x-jet-label for="email" value="{{ __('Email') }}" />
+
+                  <input type="email" id="email" name="email"  class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <x-jet-label for="tax_number" value="{{ __('Tax') }}" />
+
+                    <input type="text" id="tax_number" name="tax_number" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                  <select name="category_id" id="category_id" class="d-block w-100 mt-1 w-full border border-light rounded-md shadow-sm">
+
+
+                </select>
+
+                </div>
+
+                <div class="mb-0">
+                  <x-jet-button>
+                    {{ __('Update') }}
+                  </x-jet-button>
+                </div>
+              </form>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" id="" data-dismiss="modal">Send Request</button>
         </div>
       </div>
     </div>
